@@ -1,8 +1,0 @@
-project Project3_Ada is
-   for Main use ("graph.adb", "hear.adb");
-   for Object_Dir use ".objs";
-
-   package Compiler is
-      for Default_Switches ("Ada") use ("-g");
-   end Compiler;
-end Project3_Ada;

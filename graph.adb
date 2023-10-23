@@ -1,6 +1,13 @@
+-- Author: Ava Crocker, acrocker2021@my.fit.edu
+-- Author: Tommy Gingrelli, tgingrelli2021@my.fit.edu
+-- Course: CSE 4250, Fall 2023
+-- Project: Proj3, Can you hear me now?
+-- Language implementation: GNAT Community 2021 (20210519-103)
+
+
 with Ada.Text_IO;
 
-procedure Project3_Ada is
+procedure Graph is
 begin
-    Ada.Text_IO.Put_Line ("test");
-end Project3_Ada;
+   Ada.Text_IO.Put_Line ("test graph");
+end Graph;
