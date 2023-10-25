@@ -8,7 +8,7 @@ P ZX
 RN
 RV NO_IO
 
-U hear%b		hear.adb		db2ad8ec NE OO SU
+U hear%b		hear.adb		9ac713d2 NE OO SU
 W ada%s			ada.ads			ada.ali
 Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
 W ada.text_io%s		a-textio.adb		a-textio.ali
@@ -23,7 +23,7 @@ D a-stuten.ads		20230508121439 33c54060 ada.strings.utf_encoding%s
 D a-tags.ads		20230508121439 9eaa38c6 ada.tags%s
 D a-textio.ads		20230508121439 deada98a ada.text_io%s
 D a-unccon.ads		20230508121439 0e9b276f ada.unchecked_conversion%s
-D hear.adb		20231023172536 05877166 hear%b
+D hear.adb		20231025215521 446aba58 hear%b
 D interfac.ads		20230508121439 edec285f interfaces%s
 D i-cstrea.ads		20230508121439 e53d8b8e interfaces.c_streams%s
 D system.ads		20230508121439 a2da961d system%s
@@ -43,12 +43,20 @@ D s-unstyp.ads		20230508121439 fa2a7f59 system.unsigned_types%s
 D s-wchcon.ads		20230508121439 d9032363 system.wch_con%s
 D unchconv.ads		20230508121439 ca2f9e18 unchecked_conversion%s
 G a e
-G c Z b b [hear standard 3 11 none]
+G c Z b b [hear standard 9 11 none]
 X 1 ada.ads
-16K9*Ada 20e8 11|1r6 5r4
+16K9*Ada 20e8 11|7r6 16r15 17r7 17r29 18r7 19r7
 X 9 a-textio.ads
-58K13*Text_IO 727e16 11|1w10 5r8
-507U14*Put_Line 11|5s16
+58K13*Text_IO 727e16 11|7w10 16r19 17r11 17r33 18r11 19r11
+66P9*File_Type
+176V13*Standard_Input{66P9} 11|17s41
+263U14*New_Line 11|19s19
+314V13*End_Of_File{boolean} 11|16s27
+464U14*Put 11|18s19
+464a19 Item{string} 11|18r24
+470U14*Get_Line 11|17s19
 X 11 hear.adb
-3U11*Hear 3b11 6l5 6t9
+9U11*Hear 9b11 22l5 22t9
+11a4 Line{string} 17m57 18r32
+12i4 Length{natural} 17m63 18r43
 
