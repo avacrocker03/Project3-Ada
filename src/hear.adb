@@ -8,15 +8,15 @@ with Ada.Text_IO;
 
 procedure Hear is
 
-   Line   :   String (1 .. 150);
-   Length :   Natural;
+    Line   : String (1 .. 150);
+    Length : Natural;
 
 begin
 
-   while not (Ada.Text_IO.End_Of_File) loop
-      Ada.Text_IO.Get_Line (Ada.Text_IO.Standard_Input, Line, Length);
-      Ada.Text_IO.Put (Item => Line (1 .. Length));
-      Ada.Text_IO.New_Line;
-   end loop;
+    while not (Ada.Text_IO.End_Of_File) loop
+        Ada.Text_IO.Get_Line (Ada.Text_IO.Standard_Input, Line, Length);
+        Ada.Text_IO.Put (Item => Line (1 .. Length));
+        Ada.Text_IO.New_Line;
+    end loop;
 
 end Hear;
