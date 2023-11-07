@@ -7,14 +7,12 @@
 -- graph.ads
 package Graph is
 
-    type Vertex_Type;
-    Name : String;
-    procedure Initialize (Graph : out Graph_Type);
-    procedure Add_Link
-       (Graph : in out Graph_Type; Source, Destination : Vertex_Type);
-    procedure Remove_Link
-       (Graph : in out Graph_Type; Source, Destination : Vertex_Type);
-    function Has_Link
-       (Graph : Graph_Type; Source, Destination : Vertex_Type) return Boolean;
-    -- Add other procedures/functions as needed.
+-- Create Connection Adds The Name Of The New Connection To The Current Node And Vice Versa
+    function Create_Connection
+       (Current_Node : Node; New_Connection_Node : Node) return Boolean;
+
+-- Check Connection Goes Through The CurrentNode's List And Checks To See If It Is In There
+    function Check_Connection
+       (Current_Node : Node; Comparable_Node : Node) return Boolean;
+
 end Graph;
