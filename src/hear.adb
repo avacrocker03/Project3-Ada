@@ -44,7 +44,7 @@ begin
       end if;
 
       First_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- blah
-       (Line, Start_Placement, End_Placement - 1));
+       (Line, Start_Placement, End_Placement - 1)); -- value of first tower -> send to graph
 
       Start_Placement := End_Placement + 1;
 
@@ -63,7 +63,7 @@ begin
       end if;
 
       Second_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- blah
-       (Line, Start_Placement, End_Placement - 1));
+       (Line, Start_Placement, End_Placement - 1)); -- not true value of second tower -> true value lower in code
 
       ST_Length := Length (Second_Tower);
 
@@ -80,10 +80,10 @@ begin
       end loop;
 
       if End_Placement > Start_Placement then
-         Symb := To_Unbounded_String(Ada.Strings.Unbounded.Slice(Line, Start_Placement, End_Placement - 1));
+         Symb := To_Unbounded_String(Ada.Strings.Unbounded.Slice(Line, Start_Placement, End_Placement - 1)); -- value of symbol being saved
       else
-        Symb := To_Unbounded_String (Ada.Strings.Unbounded.Slice (Line, End_Placement - 2, Length_UB));
-        Second_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice (Second_Tower, 1, ST_Length - 1));
+        Symb := To_Unbounded_String (Ada.Strings.Unbounded.Slice (Line, End_Placement - 2, Length_UB)); -- value of symbol being saved
+        Second_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice (Second_Tower, 1, ST_Length - 1)); -- true value of second tower -> send to graph
       end if;
        
       Ada.Text_IO.Unbounded_IO.Put_Line (Item => First_Tower);
