@@ -17,6 +17,7 @@ procedure Hear is
    Pos1 : Natural;
    Pos2 : Natural;
    Length_UB : Natural;
+   Symb : Unbounded_String;
 
 begin
 
@@ -65,6 +66,29 @@ begin
       Second_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- blah
        (Line, Pos1, Pos2 - 1));
       Ada.Text_IO.Unbounded_IO.Put_Line (Item => Second_Tower);
+
+      Pos1 := Pos2 + 1;
+
+      while Length_UB >= Pos1 and then Element (Line, Pos1) = ' ' loop
+         Pos1 := Pos1 + 1;
+      end loop;
+
+    --    if Length_UB < Pos1 then
+    --       exit;
+    --    end if;
+
+      Pos2 := Pos1;
+
+      while Length_UB >= Pos2 and then Element (Line, Pos2) /= ' ' loop
+         Pos2 := Pos2 + 1;
+      end loop;
+
+      if Pos2 <= Length_UB then
+         Symb := To_Unbounded_String(Ada.Strings.Unbounded.Slice(Line, Pos1, Pos2));
+      end if;
+    --    Symb := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- blah
+    --     (Line, Pos1, Pos2 - 1));
+       Ada.Text_IO.Unbounded_IO.Put_Line (Item => Symb);
 
       Ada.Text_IO.Put_Line ("--");
 
