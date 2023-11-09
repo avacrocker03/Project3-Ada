@@ -14,9 +14,10 @@ procedure Hear is
    Line : Unbounded_String;
    First_Tower : Unbounded_String;
    Second_Tower : Unbounded_String;
-   Pos1 : Natural;
-   Pos2 : Natural;
+   Start_Placement : Natural;
+   End_Placement : Natural;
    Length_UB : Natural;
+   ST_Length : Natural;
    Symb : Unbounded_String;
 
 begin
@@ -25,72 +26,81 @@ begin
       Ada.Text_IO.Unbounded_IO.Get_Line (Ada.Text_IO.Standard_Input, Line);
       Length_UB := Length (Line);
 
-      Pos1 := 1;
-      Pos2 := 1;
+      Start_Placement := 1;
+      End_Placement := 1;
 
-      while Length_UB >= Pos1 and then Element (Line, Pos1) = ' ' loop
-         Pos1 := Pos1 + 1;
+      while Length_UB >= Start_Placement and then Element (Line, Start_Placement) = ' ' loop
+         Start_Placement := Start_Placement + 1;
       end loop;
 
-      Pos2 := Pos1;
+      End_Placement := Start_Placement;
 
-      while Length_UB >= Pos2 and then Element (Line, Pos2) /= ' ' loop
-         Pos2 := Pos2 + 1;
+      while Length_UB >= End_Placement and then Element (Line, End_Placement) /= ' ' loop
+         End_Placement := End_Placement + 1;
       end loop;
 
-      if Length_UB < Pos1 then
+      if Length_UB < Start_Placement then
          exit;
       end if;
 
-    --    Ada.Text_IO.Put (Integer'Image (Pos1));
-    --    Ada.Text_IO.Put (Integer'Image (Pos2));
       First_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- blah
-       (Line, Pos1, Pos2 - 1));
-      Ada.Text_IO.Unbounded_IO.Put_Line (Item => First_Tower);
-      Pos1 := Pos2 + 1;
+       (Line, Start_Placement, End_Placement - 1));
 
-      while Length_UB >= Pos1 and then Element (Line, Pos1) = ' ' loop
-         Pos1 := Pos1 + 1;
+      Start_Placement := End_Placement + 1;
+
+      while Length_UB >= Start_Placement and then Element (Line, Start_Placement) = ' ' loop
+         Start_Placement := Start_Placement + 1;
       end loop;
 
-      Pos2 := Pos1;
+      End_Placement := Start_Placement;
 
-      while Length_UB >= Pos2 and then Element (Line, Pos2) /= ' ' loop
-         Pos2 := Pos2 + 1;
+      while Length_UB >= End_Placement and then Element (Line, End_Placement) /= ' ' loop
+         End_Placement := End_Placement + 1;
       end loop;
 
-      if Length_UB < Pos1 then
+      if Length_UB < Start_Placement then
          exit;
       end if;
 
       Second_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- blah
-       (Line, Pos1, Pos2 - 1));
-      Ada.Text_IO.Unbounded_IO.Put_Line (Item => Second_Tower);
+       (Line, Start_Placement, End_Placement - 1));
 
-      Pos1 := Pos2 + 1;
+      ST_Length := Length (Second_Tower);
 
-      while Length_UB >= Pos1 and then Element (Line, Pos1) = ' ' loop
-         Pos1 := Pos1 + 1;
+      Start_Placement := End_Placement + 1;
+
+      while Length_UB >= Start_Placement and then Element (Line, Start_Placement) = ' ' loop
+         Start_Placement := Start_Placement + 1;
       end loop;
 
-    --    if Length_UB < Pos1 then
-    --       exit;
-    --    end if;
+      End_Placement := Start_Placement;
 
-      Pos2 := Pos1;
-
-      while Length_UB >= Pos2 and then Element (Line, Pos2) /= ' ' loop
-         Pos2 := Pos2 + 1;
+      while Length_UB >= End_Placement and then Element (Line, End_Placement) /= ' ' loop
+         End_Placement := End_Placement + 1;
       end loop;
 
-      if Pos2 <= Length_UB then
-         Symb := To_Unbounded_String(Ada.Strings.Unbounded.Slice(Line, Pos1, Pos2));
+      if End_Placement > Start_Placement then
+         Symb := To_Unbounded_String(Ada.Strings.Unbounded.Slice(Line, Start_Placement, End_Placement - 1));
+      else
+        Symb := To_Unbounded_String (Ada.Strings.Unbounded.Slice (Line, End_Placement - 2, Length_UB));
+        Second_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice (Second_Tower, 1, ST_Length - 1));
       end if;
-    --    Symb := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- blah
-    --     (Line, Pos1, Pos2 - 1));
-       Ada.Text_IO.Unbounded_IO.Put_Line (Item => Symb);
+       
+      Ada.Text_IO.Unbounded_IO.Put_Line (Item => First_Tower);
+      Ada.Text_IO.Unbounded_IO.Put_Line (Item => Second_Tower);
+      Ada.Text_IO.Unbounded_IO.Put_Line (Item => Symb);   
 
       Ada.Text_IO.Put_Line ("--");
+
+    -- commented out so it can run
+
+    --    if Symb = "." then
+    --       -- do sum stuff
+    --    else if Symb = "#" then
+    --       -- do sum other stuff
+    --    else if Symb = "?" then
+    --       -- do sum more stuf
+    --    end if;
 
    end loop;
 
