@@ -1,0 +1,4 @@
+gnatmake -gnaty hear
+gcc -c -gnaty hear.adb
+gnatbind -x hear.ali
+gnatlink hear.ali
