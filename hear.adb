@@ -128,21 +128,13 @@ begin
           (Line, Start_Placement, End_Placement - 1)); -- saving symb val
       end if;
 
-      Ada.Text_IO.Unbounded_IO.Put_Line
-        (Item => First_Tower); -- printing out vals
-      Ada.Text_IO.Unbounded_IO.Put_Line (Item => Second_Tower);
-      Ada.Text_IO.Unbounded_IO.Put_Line (Item => Symb);
-
       if Symb = "." then
-         Ada.Text_IO.Put_Line ("Ada Add New Connection");
+        Graph.Create_Connection_Unbound_Strings(First_Tower, Second_Tower);
       elsif Symb = "#" then
-         Ada.Text_IO.Put_Line ("Ada Remove Connection");
+        Graph.Remove_Connection_Unbound_Strings(First_Tower, Second_Tower);
       elsif Symb = "?" then
          Ada.Text_IO.Put_Line ("Ada Get Connection");
       end if;
-
-      Ada.Text_IO.Put_Line ("=======");
-
    end loop;
 
 end Hear;
