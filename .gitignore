@@ -1,6 +1,4 @@
 *.ali
-*.cgpr
 *.xml
-*.gpr
 *.o
 *.exe
