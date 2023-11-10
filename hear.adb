@@ -20,6 +20,8 @@ procedure Hear is
    Length_UB       : Natural; -- length of input line
    ST_Length       : Natural; -- length for second tower
    Symb            : Unbounded_String; -- var to store the symbol
+   Last_Char_UB    : Unbounded_String; -- last char 2nd tower unbounded
+   Last_Char_ST    : Character; -- char version of last char 2nd tower
 
 begin
    while not (Ada.Text_IO.End_Of_File) loop -- looping through the file
@@ -90,6 +92,11 @@ begin
              (Line, Start_Placement, End_Placement - 1));
 
       ST_Length := Length (Second_Tower); -- getting length of second tower
+      
+      --  getting last char of 2nd tower & converting to unbounded str
+      Last_Char_UB := To_Unbounded_String ("");
+      Last_Char_ST := Element (Second_Tower, ST_Length);
+      Last_Char_UB := Last_Char_ST & Last_Char_UB;      
 
       Start_Placement :=
         End_Placement +
@@ -111,24 +118,14 @@ begin
            End_Placement + 1; -- increasing end placement for every space
       end loop;
 
-      if End_Placement > Start_Placement
-      then -- checking if end placement is greater than start placement
-         Symb :=
-           To_Unbounded_String
-             (Ada.Strings.Unbounded.Slice
-                (Line, Start_Placement,
-                 End_Placement - 1)); -- slicing symbol & saving value
+      if Last_Char_UB = "." or Last_Char_UB = "#" or Last_Char_UB = "?"
+      then -- checking last char symbol, saving value, & shortening 2nd tow
+        Symb := Last_Char_UB; -- val of symb -> send to graph
+        Second_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- -
+          (Second_Tower, 1, ST_Length - 1)); -- 2nd tower val -> send to graph
       else
-         Symb         :=
-           To_Unbounded_String
-             (Ada.Strings.Unbounded.Slice
-                (Line, End_Placement - 2,
-                 Length_UB)); -- slicing symbol & saving value
-         Second_Tower :=
-           To_Unbounded_String
-             (Ada.Strings.Unbounded.Slice
-                (Second_Tower, 1,
-                 ST_Length - 1)); -- true value for second tower
+         Symb := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- -
+          (Line, Start_Placement, End_Placement - 1)); -- saving symb val
       end if;
 
       Ada.Text_IO.Unbounded_IO.Put_Line
