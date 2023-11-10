@@ -129,7 +129,8 @@ package body Graph is
       Node_Pointer_To_B : Node_Ptr := New_Connection_Node;
    begin
       List_Package.Append(Current_Node.Neighbors, Node_Pointer_To_B);
-      List_Package.Append(New_Connection_Node.Neighbors, Node_Pointer_To_A);
+      -- Uncomment Below For Bi-Directional Connections
+      -- List_Package.Append(New_Connection_Node.Neighbors, Node_Pointer_To_A);
    end Create_Connection;
 
    -- Prints Neighbors of Given Node
