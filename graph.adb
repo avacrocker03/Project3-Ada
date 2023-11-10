@@ -179,7 +179,7 @@ package body Graph is
       --Ada.Text_IO.Put_Line(To_String(First_Node.Name) & " => " & To_String(Second_Node.Name));
    end Create_Connection_Unbound_Strings;
 
- procedure Remove_Connection_Unbound_Strings(Old_Neighbor : in out Unbounded_String; New_Neighbor : in out Unbounded_String) is
+   procedure Remove_Connection_Unbound_Strings(Old_Neighbor : in out Unbounded_String; New_Neighbor : in out Unbounded_String) is
       First_Node_Bool : Boolean;
       Second_Node_Bool : Boolean;
       First_Node : Node_Ptr;
@@ -210,5 +210,82 @@ package body Graph is
       end if;
 
    end Remove_Connection_Unbound_Strings;
+
+   -- Takes Unbound Strings (Names), And Checks The Whole List To Make Sure 
+   -- That The Node Exists. Then Checks If They're Connected
+   procedure Check_Connection_Unbound_Strings(Node_A : in out Unbounded_String; Node_B : in out Unbounded_String) is
+      First_Node_Bool : Boolean;
+      Second_Node_Bool : Boolean;
+      First_Node : Node_Ptr;
+      Second_Node : Node_Ptr;
+      Is_Connected : Boolean;
+      Visited : List_Package.List;
+   begin
+      -- Checks If Node Exists, If It Does; Get It
+      -- Else Make It
+      First_Node_Bool := Does_Node_Exist (Node_A);
+      Second_Node_Bool := Does_Node_Exist (Node_B);
+      if First_Node_Bool = False then
+         First_Node := Create_Node(Node_A);
+      else 
+         First_Node := Get_Node_From_List(Node_A);
+      end if;
+      if Second_Node_Bool = False then
+         Second_Node := Create_Node(Node_B);
+      else 
+         Second_Node := Get_Node_From_List(Node_B);
+      end if;
+
+      -- Are They Connected?
+      Is_Connected := Check_Connection(First_Node, Second_Node);
+
+      if Is_Connected = True then 
+         Ada.Text_IO.Put_Line("+ " & To_String(First_Node.Name) & " => " & To_String(Second_Node.Name));
+      else 
+         Is_Connected := Breadth_First_Search(First_Node, Second_Node, Visited);
+         if Is_Connected = True then 
+            Ada.Text_IO.Put_Line("+ " & To_String(First_Node.Name) & " => " & To_String(Second_Node.Name));
+         else
+            Ada.Text_IO.Put_Line("- " & To_String(First_Node.Name) & " => " & To_String(Second_Node.Name));
+         end if;
+      end if;
+   end Check_Connection_Unbound_Strings;
+
+
+-- Breadth First Search The Graph
+   function Breadth_First_Search(Node_A : Node_Ptr; Target_Node : Node_Ptr; Visited : List_Package.List) return Boolean is
+      Cursor_A : List_Package.Cursor := List_Package.First(Node_A.Neighbors);
+      Real_Node : Node_Ptr := Node_A;
+      Visited_Nodes : List_Package.List := Visited;
+   begin
+      Print_Neighbors(Real_Node);
+      List_Package.Append(Visited_Nodes, Node_A);
+      -- Checks Direct Connections
+      while List_Package.Has_Element(Cursor_A) loop
+         declare
+            Current_Node_In_List : Node_Ptr := List_Package.Element(Cursor_A);
+         begin
+            if (To_String(Current_Node_In_List.Name) = To_String(Target_Node.Name)) then
+               return True;
+            end if;
+         end;
+         List_Package.Next(Cursor_A);
+      end loop;
+
+      Cursor_A :=  List_Package.First(Node_A.Neighbors);
+      while List_Package.Has_Element(Cursor_A) loop
+         declare
+            Current_Node_In_List : Node_Ptr := List_Package.Element(Cursor_A);
+         begin
+            if List_Package.Contains(Visited, Current_Node_In_List) = False then
+               return Breadth_First_Search(Current_Node_In_List, Target_Node, Visited);
+            end if;
+         end;
+         List_Package.Next(Cursor_A);
+      end loop;
+
+
+      return False;
+   end Breadth_First_Search;
 
 end Graph;

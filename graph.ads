@@ -47,6 +47,9 @@ package Graph is
    -- That The Node Exists. If It Doesn't Make A Node And Add It To Graph
    procedure Remove_Connection_Unbound_Strings(Old_Neighbor : in out Unbounded_String; New_Neighbor : in out Unbounded_String);
 
+   -- Takes Unbound Strings (Names), And Checks The Whole List To Make Sure 
+   -- That The Node Exists. Then Checks If They're Connected
+   procedure Check_Connection_Unbound_Strings(Node_A : in out Unbounded_String; Node_B : in out Unbounded_String);
 
 -- Check Connection Goes Through The Current Node's List And Checks To See If It Is In There
   function Check_Connection (Current_Node : Node_Ptr; Comparable_Node : Node_Ptr) return Boolean;
@@ -58,9 +61,9 @@ package Graph is
 -- Returns The Node From List Of All Nodes
   function Get_Node_From_List (Name : Unbounded_String) return Node_Ptr;
 
-
 -- Remove Node Connection
    procedure Remove_Connection(Node_A : in out Node_Ptr; Node_B : in out Node_Ptr);
 
-
+-- Breadth First Search The Graph
+   function Breadth_First_Search(Node_A : Node_Ptr; Target_Node : Node_Ptr; Visited : List_Package.List) return Boolean;
 end Graph;

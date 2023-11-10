@@ -133,8 +133,7 @@ begin
       elsif Symb = "#" then
         Graph.Remove_Connection_Unbound_Strings(First_Tower, Second_Tower);
       elsif Symb = "?" then
-         Ada.Text_IO.Put_Line ("Ada Get Connection");
+        Graph.Check_Connection_Unbound_Strings(First_Tower, Second_Tower);
       end if;
    end loop;
-
 end Hear;
