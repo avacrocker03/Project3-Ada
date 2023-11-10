@@ -191,12 +191,12 @@ package body Graph is
       First_Node_Bool := Does_Node_Exist (Old_Neighbor);
       Second_Node_Bool := Does_Node_Exist (New_Neighbor);
       if First_Node_Bool = False then
-         First_Node := Create_Node(Old_Neighbor);
+        return;
       else 
          First_Node := Get_Node_From_List(Old_Neighbor);
       end if;
       if Second_Node_Bool = False then
-         Second_Node := Create_Node(New_Neighbor);
+        return;
       else 
          Second_Node := Get_Node_From_List(New_Neighbor);
       end if;
@@ -226,12 +226,14 @@ package body Graph is
       First_Node_Bool := Does_Node_Exist (Node_A);
       Second_Node_Bool := Does_Node_Exist (Node_B);
       if First_Node_Bool = False then
-         First_Node := Create_Node(Node_A);
+        Ada.Text_IO.Put_Line("- " & To_String(Node_A) & " => " & To_String(Node_B));
+        return;
       else 
-         First_Node := Get_Node_From_List(Node_A);
+        First_Node := Get_Node_From_List(Node_A);
       end if;
       if Second_Node_Bool = False then
-         Second_Node := Create_Node(Node_B);
+        Ada.Text_IO.Put_Line("- " & To_String(Node_A) & " => " & To_String(Node_B));
+        return;
       else 
          Second_Node := Get_Node_From_List(Node_B);
       end if;
@@ -242,6 +244,7 @@ package body Graph is
       if Is_Connected = True then 
          Ada.Text_IO.Put_Line("+ " & To_String(First_Node.Name) & " => " & To_String(Second_Node.Name));
       else 
+         List_Package.Append(Visited, First_Node);
          Is_Connected := Breadth_First_Search(First_Node, Second_Node, Visited);
          if Is_Connected = True then 
             Ada.Text_IO.Put_Line("+ " & To_String(First_Node.Name) & " => " & To_String(Second_Node.Name));
@@ -255,11 +258,8 @@ package body Graph is
 -- Breadth First Search The Graph
    function Breadth_First_Search(Node_A : Node_Ptr; Target_Node : Node_Ptr; Visited : List_Package.List) return Boolean is
       Cursor_A : List_Package.Cursor := List_Package.First(Node_A.Neighbors);
-      Real_Node : Node_Ptr := Node_A;
       Visited_Nodes : List_Package.List := Visited;
    begin
-      Print_Neighbors(Real_Node);
-      List_Package.Append(Visited_Nodes, Node_A);
       -- Checks Direct Connections
       while List_Package.Has_Element(Cursor_A) loop
          declare
@@ -278,7 +278,8 @@ package body Graph is
             Current_Node_In_List : Node_Ptr := List_Package.Element(Cursor_A);
          begin
             if List_Package.Contains(Visited, Current_Node_In_List) = False then
-               return Breadth_First_Search(Current_Node_In_List, Target_Node, Visited);
+                List_Package.Append(Visited_Nodes, Node_A);
+                return Breadth_First_Search(Current_Node_In_List, Target_Node, Visited);
             end if;
          end;
          List_Package.Next(Cursor_A);
