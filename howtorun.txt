@@ -2,3 +2,8 @@ gnatmake -gnaty hear
 gcc -c -gnaty hear.adb
 gnatbind -x hear.ali
 gnatlink hear.ali
+
+gnatmake -gnaty graph
+gcc -c -gnaty graph.adb
+gnatbind -x graph.ali
+gnatlink graph.ali

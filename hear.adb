@@ -4,6 +4,10 @@
 --  Project: Proj3, Can you hear me now?
 --  Language implementation: GNAT Community 2021 (20210519-103)
 
+--  Citations:
+--  https://learn.adacore.com/
+--  https://www2.seas.gwu.edu/~adagroup/adalib_html/ada-html/a-strunb.html
+
 with Ada.Text_IO;
 with Ada.Strings.Unbounded;
 with Ada.Text_IO.Unbounded_IO;
@@ -76,7 +80,10 @@ begin
 
       while Length_UB >= End_Placement
         and then Element (Line, End_Placement) /= ' '
-      loop -- iterating through line while there's no space
+           and then Element (Line, End_Placement - 1) /= '?'
+              and then Element (Line, End_Placement - 1) /= '.'
+                 and then Element (Line, End_Placement - 1) /= '#'
+      loop -- iterating through line while there's no space & no symb
          End_Placement :=
            End_Placement + 1; -- increasing end placement for every space
       end loop;
@@ -92,11 +99,11 @@ begin
              (Line, Start_Placement, End_Placement - 1));
 
       ST_Length := Length (Second_Tower); -- getting length of second tower
-      
+
       --  getting last char of 2nd tower & converting to unbounded str
       Last_Char_UB := To_Unbounded_String ("");
       Last_Char_ST := Element (Second_Tower, ST_Length);
-      Last_Char_UB := Last_Char_ST & Last_Char_UB;      
+      Last_Char_UB := Last_Char_ST & Last_Char_UB;
 
       Start_Placement :=
         End_Placement +
@@ -120,20 +127,21 @@ begin
 
       if Last_Char_UB = "." or Last_Char_UB = "#" or Last_Char_UB = "?"
       then -- checking last char symbol, saving value, & shortening 2nd tow
-        Symb := Last_Char_UB; -- val of symb -> send to graph
-        Second_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- -
-          (Second_Tower, 1, ST_Length - 1)); -- 2nd tower val -> send to graph
+         Symb := Last_Char_UB; -- val of symb -> send to graph
+         Second_Tower := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- -
+           (Second_Tower, 1, ST_Length - 1)); -- 2nd tower val -> send to graph
       else
          Symb := To_Unbounded_String (Ada.Strings.Unbounded.Slice -- -
-          (Line, Start_Placement, End_Placement - 1)); -- saving symb val
+          (Line, Start_Placement, Start_Placement)); -- saving symb val
       end if;
 
+      --  Checking Symb & creating/removing graph connections
       if Symb = "." then
-        Graph.Create_Connection_Unbound_Strings(First_Tower, Second_Tower);
+         Graph.Create_Connection_Unbound_Strings (First_Tower, Second_Tower);
       elsif Symb = "#" then
-        Graph.Remove_Connection_Unbound_Strings(First_Tower, Second_Tower);
+         Graph.Remove_Connection_Unbound_Strings (First_Tower, Second_Tower);
       elsif Symb = "?" then
-        Graph.Check_Connection_Unbound_Strings(First_Tower, Second_Tower);
+         Graph.Check_Connection_Unbound_Strings (First_Tower, Second_Tower);
       end if;
    end loop;
 end Hear;
