@@ -5,10 +5,9 @@
 --  Language implementation: GNAT Community 2021 (20210519-103)
 
 with Ada.Text_IO;
-with Ada.Containers.Doubly_Linked_Lists;
-with Ada.Strings.Unbounded;
-with Ada.Text_IO.Unbounded_IO;
-use Ada.Strings.Unbounded;
+--  with Ada.Containers.Doubly_Linked_Lists;
+--  with Ada.Strings.Unbounded;
+--  use Ada.Strings.Unbounded;
 
 package body Graph is
 
@@ -23,7 +22,7 @@ package body Graph is
       --  Iterate through the neighbors of Current_Node
       while List_Package.Has_Element (Cursor) loop
          declare
-            Neighbor_Node : Node_Ptr := List_Package.Element (Cursor);
+            Neighbor_Node : constant Node_Ptr := List_Package.Element (Cursor);
          begin
             --  Check if the Current_Neighbor matches Comparable_Node
             if Comparable_Node.Name = Neighbor_Node.Name then
@@ -43,7 +42,7 @@ package body Graph is
    --  Iterate through the neighbors of Current_Node
       while List_Package.Has_Element (Cursor) loop
          declare
-            Current_Node : Node_Ptr := List_Package.Element (Cursor);
+            Current_Node : constant Node_Ptr := List_Package.Element (Cursor);
          begin
             if (To_String (Current_Node.Name) = Name) then
                The_Node := Current_Node;
@@ -61,7 +60,7 @@ package body Graph is
    --  Iterate through the neighbors of Current_Node
       while List_Package.Has_Element (Cursor) loop
          declare
-            Current_Node : Node_Ptr := List_Package.Element (Cursor);
+            Current_Node : constant Node_Ptr := List_Package.Element (Cursor);
          begin
             if (To_String (Current_Node.Name) = Name) then
                return True;
@@ -79,7 +78,7 @@ package body Graph is
    --  Iterate through the neighbors of Current_Node
       while List_Package.Has_Element (Cursor) loop
          declare
-            Current_Node : Node_Ptr := List_Package.Element (Cursor);
+            Current_Node : constant Node_Ptr := List_Package.Element (Cursor);
          begin
             Ada.Text_IO.Put_Line ("Node " & To_String (Current_Node.Name));
          end;
@@ -89,7 +88,7 @@ package body Graph is
 
    --  Creates A Node And Returns It (Also Adds It To All Nodes)
    function Create_Node (Name : Unbounded_String) return Node_Ptr is
-      New_Node_Pointer : Node_Ptr :=
+      New_Node_Pointer : constant Node_Ptr :=
          new Node'(Name => Name, Neighbors => List_Package.Empty_List);
    begin
       --  Add Nodes To All_Nodes
@@ -98,8 +97,8 @@ package body Graph is
    end Create_Node;
 
    --  Remove Node Connection
-   procedure Remove_Connection (Node_A : in out Node_Ptr; Node_B :
-      in out Node_Ptr) is
+   procedure Remove_Connection (Node_A : in Node_Ptr; Node_B :
+      in Node_Ptr) is
          Cursor_A : List_Package.Cursor :=
             List_Package.First (Node_A.Neighbors);
             Cursor_B : List_Package.Cursor :=
@@ -108,7 +107,8 @@ package body Graph is
    --  Iterate through the neighbors of Current_Node
       while List_Package.Has_Element (Cursor_A) loop
          declare
-            Current_Node_In_List : Node_Ptr := List_Package.Element (Cursor_A);
+            Current_Node_In_List : constant Node_Ptr :=
+               List_Package.Element (Cursor_A);
          begin
             if (To_String (Current_Node_In_List.Name) =
                To_String (Node_B.Name))
@@ -122,7 +122,8 @@ package body Graph is
 
       while List_Package.Has_Element (Cursor_B) loop
          declare
-            Current_Node_In_List : Node_Ptr := List_Package.Element (Cursor_B);
+            Current_Node_In_List : constant Node_Ptr :=
+               List_Package.Element (Cursor_B);
          begin
             if (To_String (Current_Node_In_List.Name) =
                To_String (Node_A.Name))
@@ -136,21 +137,22 @@ package body Graph is
 
    --  Creates Connection Btwn 2 Nodes By Adding The Nodes To Each Others Lists
    procedure Create_Connection (Current_Node :
-      in out Node_Ptr; New_Connection_Node : in out Node_Ptr) is
-         Node_Pointer_To_A : Node_Ptr := Current_Node;
-         Node_Pointer_To_B : Node_Ptr := New_Connection_Node;
+      in Node_Ptr; New_Connection_Node : in Node_Ptr) is
+         --  Node_Pointer_To_A : Node_Ptr := Current_Node;
+         Node_Pointer_To_B : constant Node_Ptr := New_Connection_Node;
    begin
       List_Package.Append (Current_Node.Neighbors, Node_Pointer_To_B);
    end Create_Connection;
 
    --  Prints Neighbors of Given Node
-   procedure Print_Neighbors (Node_A : in out Node_Ptr) is
+   procedure Print_Neighbors (Node_A : in Node_Ptr) is
       Cursor_A : List_Package.Cursor := List_Package.First (Node_A.Neighbors);
    begin
    --  Iterate through the neighbors of Current_Node
       while List_Package.Has_Element (Cursor_A) loop
          declare
-            Current_Node_In_List : Node_Ptr := List_Package.Element (Cursor_A);
+            Current_Node_In_List : constant Node_Ptr :=
+               List_Package.Element (Cursor_A);
          begin
             Ada.Text_IO.Put_Line ("Neighbor " &
                To_String (Current_Node_In_List.Name));
@@ -217,7 +219,7 @@ package body Graph is
       --  Are They Connected?
       Is_Connected := Check_Connection (First_Node, Second_Node);
 
-      if Is_Connected = True then
+      if Is_Connected then
          Remove_Connection (First_Node, Second_Node);
       end if;
 
@@ -256,14 +258,14 @@ package body Graph is
       --  Are They Connected?
       Is_Connected := Check_Connection (First_Node, Second_Node);
 
-      if Is_Connected = True then
+      if Is_Connected then
          Ada.Text_IO.Put_Line ("+ " & To_String (First_Node.Name)
             & " => " & To_String (Second_Node.Name));
       else
          List_Package.Append (Visited, First_Node);
          Is_Connected := Breadth_First_Search
             (First_Node, Second_Node, Visited);
-         if Is_Connected = True then
+         if Is_Connected then
             Ada.Text_IO.Put_Line ("+ " & To_String (First_Node.Name)
                & " => " & To_String (Second_Node.Name));
          else
@@ -284,7 +286,8 @@ package body Graph is
       --  Checks Direct Connections
       while List_Package.Has_Element (Cursor_A) loop
          declare
-            Current_Node_In_List : Node_Ptr := List_Package.Element (Cursor_A);
+            Current_Node_In_List : constant Node_Ptr :=
+               List_Package.Element (Cursor_A);
          begin
             if (To_String (Current_Node_In_List.Name) =
                To_String (Target_Node.Name))
@@ -298,7 +301,8 @@ package body Graph is
       Cursor_A :=  List_Package.First (Node_A.Neighbors);
       while List_Package.Has_Element (Cursor_A) loop
          declare
-            Current_Node_In_List : Node_Ptr := List_Package.Element (Cursor_A);
+            Current_Node_In_List : constant Node_Ptr :=
+               List_Package.Element (Cursor_A);
          begin
             if List_Package.Contains (Visited, Current_Node_In_List)
                = False

@@ -6,7 +6,7 @@
 
 --  graph.ads
 
-with Ada.Text_IO;           use Ada.Text_IO;
+
 with Ada.Containers.Doubly_Linked_Lists;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
@@ -32,11 +32,11 @@ package Graph is
       return Node_Ptr;
 
 --  Adds The Name Of New Connection To Current Node & Vice Versa
-   procedure Create_Connection (Current_Node : in out Node_Ptr;
-      New_Connection_Node : in out Node_Ptr);
+   procedure Create_Connection (Current_Node : in Node_Ptr;
+      New_Connection_Node : in Node_Ptr);
 
    --  Prints Neighbors Of Current_Node
-   procedure Print_Neighbors (Node_A : in out Node_Ptr);
+   procedure Print_Neighbors (Node_A : in Node_Ptr);
 
    --  Prints All Nodes
    procedure Print_All_Nodes;
@@ -71,8 +71,8 @@ package Graph is
       return Node_Ptr;
 
 --  Remove Node Connection
-   procedure Remove_Connection (Node_A : in out Node_Ptr;
-      Node_B : in out Node_Ptr);
+   procedure Remove_Connection (Node_A : in Node_Ptr;
+      Node_B : in Node_Ptr);
 
 --  Breadth First Search The Graph
    function Breadth_First_Search (Node_A : Node_Ptr; Target_Node :
